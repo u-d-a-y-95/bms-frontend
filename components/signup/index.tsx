@@ -1,3 +1,4 @@
+import { useSignup } from "@/hooks/apis/auth";
 import { mantineValidate } from "@/utils/mantine";
 import {
   Stepper,
@@ -25,6 +26,7 @@ const ownerSchema = z.object({
 });
 
 export const Signup = () => {
+  const { mutate: signup } = useSignup();
   const [active, setActive] = useState(0);
 
   const form = useForm({
@@ -57,7 +59,9 @@ export const Signup = () => {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
-  const save = () => {};
+  const save = () => {
+    signup(form.values);
+  };
 
   return (
     <div className={styles.main}>
@@ -86,7 +90,7 @@ export const Signup = () => {
             <Stepper.Step label="First step" description="Company information">
               <TextInput
                 label="Name"
-                placeholder="Username"
+                placeholder="Enter company name"
                 {...form.getInputProps("companyName")}
               />
               <TextInput
