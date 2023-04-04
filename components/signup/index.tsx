@@ -30,6 +30,7 @@ export const Signup = () => {
   const [active, setActive] = useState(0);
 
   const form = useForm({
+    validateInputOnChange:true,
     initialValues: {
       companyName: "",
       companyEmail: "",
@@ -75,7 +76,7 @@ export const Signup = () => {
             radius="sm"
             styles={{
               root: {
-                height: "280px",
+                height: "320px",
               },
               stepIcon: {
                 width: "3rem",
@@ -94,7 +95,7 @@ export const Signup = () => {
                 {...form.getInputProps("companyName")}
               />
               <TextInput
-                mt="md"
+                mt="xs"
                 label="Email"
                 placeholder="Enter a email"
                 {...form.getInputProps("companyEmail")}
@@ -107,13 +108,13 @@ export const Signup = () => {
                 {...form.getInputProps("ownerName")}
               />
               <TextInput
-                mt="md"
+                mt="xs"
                 label="Mobile"
                 placeholder="Enter a mobile number"
                 {...form.getInputProps("ownerMobile")}
               />
               <TextInput
-                mt="md"
+                mt="xs"
                 label="Password"
                 placeholder="Enter a password"
                 {...form.getInputProps("ownerPassword")}
