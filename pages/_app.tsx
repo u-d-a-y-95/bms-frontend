@@ -8,11 +8,11 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { useState } from "react";
+import { Notifications } from "@mantine/notifications";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
   const [queryClient] = useState(() => new QueryClient());
-  console.log(pageProps.dehydratedState);
 
   return (
     <>
@@ -33,6 +33,7 @@ export default function App(props: AppProps) {
               colorScheme: "light",
             }}
           >
+            <Notifications />
             <Component {...pageProps} />
           </MantineProvider>
         </Hydrate>
