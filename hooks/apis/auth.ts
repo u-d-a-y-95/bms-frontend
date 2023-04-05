@@ -10,10 +10,9 @@ export const useSignup = () => {
 export const useLogin = () => {
   return useMutation({
     mutationFn: login,
-    onSuccess: () => toast.error("login successfully"),
-    onError: (res: string) => {
-      console.log(res);
-      toast.error("login successfully");
+    onSuccess: () => toast.success("login successfully"),
+    onError: (res) => {
+      toast.error(res.response.data);
     },
   });
 };
