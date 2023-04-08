@@ -21,7 +21,7 @@ interface UserContextProviderProps {
   children: ReactNode;
 }
 
-export const UserContextProvider: React.FC<UserContextProviderProps> = ({
+export const AuthContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialAuthState);
@@ -37,4 +37,4 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({
   );
 };
 
-export const useUserContext = (): IUserContextValue => useContext(UserContext);
+export const useAuthContext = (): IUserContextValue => useContext(UserContext);
