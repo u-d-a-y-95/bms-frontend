@@ -1,14 +1,6 @@
 import { useSignup } from "@/hooks/apis/auth";
 import { mantineValidate } from "@/utils/mantine";
-import {
-  Stepper,
-  Button,
-  Group,
-  TextInput,
-  Title,
-  Text,
-  Grid,
-} from "@mantine/core";
+import { Button, Group, Stepper, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { z } from "zod";
@@ -30,7 +22,7 @@ export const Signup = () => {
   const [active, setActive] = useState(0);
 
   const form = useForm({
-    validateInputOnChange:true,
+    validateInputOnChange: true,
     initialValues: {
       companyName: "",
       companyEmail: "",
@@ -61,7 +53,20 @@ export const Signup = () => {
     setActive((current) => (current > 0 ? current - 1 : current));
 
   const save = () => {
-    signup(form.values);
+    const { ownerName, ownerMobile, ownerPassword, companyEmail, companyName } =
+      form.values;
+    const payload = {
+      company: {
+        name: companyName,
+        email: companyEmail,
+      },
+      employee: {
+        name: ownerName,
+        mobile: ownerMobile,
+        password: ownerPassword,
+      },
+    };
+    signup(payload);
   };
 
   return (
@@ -104,7 +109,7 @@ export const Signup = () => {
             <Stepper.Step label="Second step" description="Owner information">
               <TextInput
                 label="Name"
-                placeholder="Username"
+                placeholder="Enter your name"
                 {...form.getInputProps("ownerName")}
               />
               <TextInput
