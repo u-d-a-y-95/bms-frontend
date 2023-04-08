@@ -3,6 +3,9 @@ import { Form, useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import styles from "./index.module.scss";
 import { useLogin } from "@/hooks/apis/auth";
+import { useAuthContext } from "@/state/auth";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const schema = z.object({
   mobile: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/),
@@ -10,6 +13,10 @@ const schema = z.object({
 });
 
 export const Login = () => {
+  const {
+    state: { isLoggedIn },
+  } = useAuthContext();
+  const router = useRouter();
   const { mutate: save, isLoading } = useLogin();
   const form = useForm({
     validateInputOnChange: true,
@@ -19,6 +26,12 @@ export const Login = () => {
     },
     validate: zodResolver(schema),
   });
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/");
+    }
+  }, [isLoggedIn, router]);
 
   const handleSubmit = () => {
     save(form.values);
