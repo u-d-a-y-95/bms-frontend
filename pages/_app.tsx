@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-query";
 import { useState } from "react";
 import { Notifications } from "@mantine/notifications";
+import { AuthContextProvider } from "@/state/auth";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -34,7 +35,9 @@ export default function App(props: AppProps) {
             }}
           >
             <Notifications />
-            <Component {...pageProps} />
+            <AuthContextProvider>
+              <Component {...pageProps} />
+            </AuthContextProvider>
           </MantineProvider>
         </Hydrate>
       </QueryClientProvider>
