@@ -1,8 +1,13 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
+import { withAuth } from "@/hoc/withAuth";
+import { useAuthContext } from "@/state/auth";
+
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const Home = () => {
+  const { dispatch } = useAuthContext();
+
   return (
     <>
       <Head>
@@ -11,6 +16,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <button
+        onClick={(e) => {
+          dispatch({
+            type: "SET_LOGOUT",
+          });
+        }}
+      >
+        Log out
+      </button>
     </>
   );
-}
+};
+export default withAuth(Home);
