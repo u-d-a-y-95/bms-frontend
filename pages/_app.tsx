@@ -11,10 +11,22 @@ import { useState } from "react";
 import { Notifications } from "@mantine/notifications";
 import { AuthContextProvider } from "@/state/auth";
 import Layout from "@/components/layout";
+import { useRouter } from "next/router";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
   const [queryClient] = useState(() => new QueryClient());
+  const router = useRouter();
+
+  const wrappedComponent = () => {
+    return ["/login"].includes(router.pathname) ? (
+      <Component {...pageProps} />
+    ) : (
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    );
+  };
 
   return (
     <>
@@ -36,11 +48,7 @@ export default function App(props: AppProps) {
             }}
           >
             <Notifications />
-            <AuthContextProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </AuthContextProvider>
+            <AuthContextProvider>{wrappedComponent()}</AuthContextProvider>
           </MantineProvider>
         </Hydrate>
       </QueryClientProvider>

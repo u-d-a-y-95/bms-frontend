@@ -1,12 +1,21 @@
 import { Aside, Group, NavLink } from "@mantine/core";
-import { AppShell, Navbar } from "@mantine/core";
+import { AppShell, Header } from "@mantine/core";
 import Nav from "./nav";
-import Header from "./header";
+import Topbar from "./header";
+// import Header from "./header";
 
 const Layout = ({ children }: any) => {
   return (
-    <AppShell navbarOffsetBreakpoint="sm" navbar={<Nav />}>
-      <Header></Header>
+    <AppShell
+      navbarOffsetBreakpoint="sm"
+      navbar={<Nav />}
+      header={
+        <Header height={60}>
+          <Topbar />
+        </Header>
+      }
+    >
+      {/* <Header></Header> */}
       {children}
     </AppShell>
   );

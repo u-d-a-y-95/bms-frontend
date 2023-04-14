@@ -66,13 +66,13 @@ export default function Nav() {
       hiddenBreakpoint="sm"
       // hidden={false}
     >
-      <Navbar.Section p={20}>
+      {/* <Navbar.Section p={20}>
         <Title order={3} color="red">
           BMS
         </Title>
         <Text size={"sm"}>HTech Solution</Text>
       </Navbar.Section>
-      <Divider />
+      <Divider /> */}
       <Navbar.Section grow mt={5}>
         <Link items={navs}></Link>
       </Navbar.Section>
