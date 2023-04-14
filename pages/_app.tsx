@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { Notifications } from "@mantine/notifications";
 import { AuthContextProvider } from "@/state/auth";
+import Layout from "@/components/layout";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -36,7 +37,9 @@ export default function App(props: AppProps) {
           >
             <Notifications />
             <AuthContextProvider>
-              <Component {...pageProps} />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
             </AuthContextProvider>
           </MantineProvider>
         </Hydrate>
