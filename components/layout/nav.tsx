@@ -1,41 +1,59 @@
 import { Divider, NavLink, Navbar, Text, Title } from "@mantine/core";
+import {
+  IconAddressBook,
+  IconCalculator,
+  IconLayoutDashboard,
+  IconMessage,
+  IconSettings,
+  IconSquare,
+  IconUser,
+  IconUsers,
+} from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 const navs = [
   {
     label: "Dashboard",
     url: "/",
+    icon: IconLayoutDashboard,
     children: [],
   },
   {
     label: "Customer Management",
     url: "",
+    icon: IconUsers,
     children: [],
   },
   {
     label: "Bill Management",
     url: "",
+    icon: IconCalculator,
     children: [],
   },
   {
     label: "Configuration",
     url: "",
+    icon: IconSettings,
     children: [
       {
         label: "Profile",
         url: "",
+        icon: IconUser,
       },
       {
         label: "Employee",
         url: "",
+        icon: IconAddressBook,
       },
       {
         label: "Service",
         url: "",
+        icon: IconSquare,
       },
       {
         label: "Sms",
         url: "",
+        icon: IconMessage,
       },
     ],
   },
@@ -51,6 +69,7 @@ const Link = ({ items }: any) => {
           label={item.label}
           active={router.pathname === item.url}
           py={12}
+          icon={<item.icon size="1rem" />}
         >
           {item?.children?.length && <Link items={item.children} />}
         </NavLink>
