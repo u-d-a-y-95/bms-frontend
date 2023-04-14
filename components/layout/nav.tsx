@@ -1,11 +1,11 @@
-import { Divider, NavLink, Navbar, Text, Title } from "@mantine/core";
+import { NavLink, Navbar } from "@mantine/core";
 import {
   IconAddressBook,
   IconCalculator,
   IconLayoutDashboard,
   IconMessage,
+  IconPaperBag,
   IconSettings,
-  IconSquare,
   IconUser,
   IconUsers,
 } from "@tabler/icons-react";
@@ -48,7 +48,7 @@ const navs = [
       {
         label: "Service",
         url: "",
-        icon: IconSquare,
+        icon: IconPaperBag,
       },
       {
         label: "Sms",
