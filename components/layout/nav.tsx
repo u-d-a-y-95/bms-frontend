@@ -9,6 +9,7 @@ import {
   IconUser,
   IconUsers,
 } from "@tabler/icons-react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 const navs = [
@@ -42,7 +43,7 @@ const navs = [
       },
       {
         label: "Employee",
-        url: "",
+        url: "/configuration/employee",
         icon: IconAddressBook,
       },
       {
@@ -59,19 +60,21 @@ const navs = [
   },
 ];
 
-const Link = ({ items }: any) => {
+const Li = ({ items }: any) => {
   const router = useRouter();
   return (
     <>
       {items.map((item: any, index: number) => (
         <NavLink
-          key={index}
           label={item.label}
           active={router.pathname === item.url}
           py={12}
           icon={<item.icon size="1rem" />}
+          component={Link}
+          key={index}
+          href={item.url}
         >
-          {item?.children?.length && <Link items={item.children} />}
+          {item?.children?.length && <Li items={item.children} />}
         </NavLink>
       ))}
     </>
@@ -85,15 +88,8 @@ export default function Nav() {
       hiddenBreakpoint="sm"
       // hidden={false}
     >
-      {/* <Navbar.Section p={20}>
-        <Title order={3} color="red">
-          BMS
-        </Title>
-        <Text size={"sm"}>HTech Solution</Text>
-      </Navbar.Section>
-      <Divider /> */}
       <Navbar.Section grow mt={5}>
-        <Link items={navs}></Link>
+        <Li items={navs}></Li>
       </Navbar.Section>
       <Navbar.Section>{}</Navbar.Section>
     </Navbar>

@@ -45,6 +45,19 @@ export default function App(props: AppProps) {
             withNormalizeCSS
             theme={{
               colorScheme: "light",
+              fontSizes: {
+                xs: "0.6rem",
+                sm: "0.75rem",
+                md: "1rem",
+                lg: "1rem",
+                xl: "1.2rem",
+              },
+              components: {
+                Button: {},
+                ActionIcon: {
+                  // sizes: {},
+                },
+              },
             }}
           >
             <Notifications />
