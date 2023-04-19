@@ -14,8 +14,8 @@ const Layout = ({ children }: any) => {
           <Topbar />
         </Header>
       }
+      // styles={() => {}}
     >
-      {/* <Header></Header> */}
       {children}
     </AppShell>
   );
