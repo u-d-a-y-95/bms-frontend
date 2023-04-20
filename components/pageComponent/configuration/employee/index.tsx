@@ -1,10 +1,11 @@
-import { useGetEmployees } from "@/hooks/apis/employee";
+import { useDeleteEmployee, useGetEmployees } from "@/hooks/apis/employee";
 import { Box, Button, Divider, Flex, Input, Title } from "@mantine/core";
 import { useDebouncedState, useDisclosure } from "@mantine/hooks";
 import { IconFilter, IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { EmployeeTableList } from "./employeeListTable";
 import { EmployeeModal } from "./employeeModal";
+import { ConfirmationModal } from "@/components/util/confirmationModal";
 
 export default function Employee() {
   const [filter, setFilter] = useState({
@@ -12,7 +13,8 @@ export default function Employee() {
     search: "",
   });
   const [search, setSearch] = useDebouncedState("", 500);
-  const { data, isLoading } = useGetEmployees(filter);
+  const { data, isLoading, isFetching } = useGetEmployees(filter);
+  const { mutate } = useDeleteEmployee();
   const setActivePage = (page: number) => {
     setFilter({
       ...filter,
@@ -27,6 +29,10 @@ export default function Employee() {
     });
   }, [search]);
   const [opened, { open, close }] = useDisclosure(false);
+
+  const deleteEmployee = (id: string) => {
+    mutate(id);
+  };
 
   return (
     <>
@@ -63,9 +69,10 @@ export default function Employee() {
       <EmployeeTableList
         employees={data?.data?.employees}
         total={data?.data?.total}
-        isLoading={isLoading}
+        isLoading={isLoading || isFetching}
         activePage={filter.activePage}
         setActivePage={setActivePage}
+        deleteEmployee={deleteEmployee}
       />
 
       <EmployeeModal opened={opened} close={close} />

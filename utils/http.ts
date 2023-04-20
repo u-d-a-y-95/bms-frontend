@@ -35,6 +35,9 @@ class Http {
   get(path: string, option?: any) {
     return axios.get<any, IResponse>(path, option);
   }
+  delete(path: string, option?: any) {
+    return axios.delete<any, IResponse>(path, option);
+  }
 }
 
 export const http = new Http();
