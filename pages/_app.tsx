@@ -54,6 +54,13 @@ export default function App(props: AppProps) {
               },
               components: {
                 Button: {},
+                Modal: {
+                  styles: {
+                    content: {
+                      padding: "20px",
+                    },
+                  },
+                },
                 ActionIcon: {
                   // sizes: {},
                 },

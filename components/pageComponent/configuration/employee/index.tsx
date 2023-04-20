@@ -23,9 +23,12 @@ import {
 } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { EmployeeTableList } from "./employeeListTable";
+import { EmployeeModal } from "./employeeModal";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function Employee() {
   const { data, isLoading } = useGetEmployees();
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
       <Title order={3}>Employee</Title>
@@ -38,6 +41,7 @@ export default function Employee() {
             leftIcon={<IconPlus size={"1rem"} />}
             color="gray"
             variant="light"
+            onClick={open}
           >
             Add
           </Button>
@@ -56,6 +60,8 @@ export default function Employee() {
         total={data?.data?.total}
         isLoading={isLoading}
       />
+
+      <EmployeeModal opened={opened} close={close} />
     </>
   );
 }

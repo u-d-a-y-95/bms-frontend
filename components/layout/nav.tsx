@@ -86,7 +86,7 @@ export default function Nav() {
     <Navbar
       width={{ sm: "100%", md: "300" }}
       hiddenBreakpoint="sm"
-      // hidden={false}
+      hidden={true}
     >
       <Navbar.Section grow mt={5}>
         <Li items={navs}></Li>
