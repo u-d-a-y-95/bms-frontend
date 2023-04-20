@@ -12,7 +12,9 @@ import { FC } from "react";
 
 interface Props {
   isLoading: boolean;
+  setActivePage: Function;
   total: number;
+  activePage: number;
   employees: [
     {
       name: string;
@@ -27,6 +29,8 @@ export const EmployeeTableList: FC<Props> = ({
   employees,
   isLoading,
   total,
+  setActivePage,
+  activePage,
 }: Props) => {
   //   if (isLoading) return <Loader />;
   return (
@@ -79,8 +83,9 @@ export const EmployeeTableList: FC<Props> = ({
         mt="lg"
         position="right"
         total={Math.ceil(total / 10)}
-        defaultValue={1}
+        value={activePage}
         siblings={1}
+        onChange={(page) => setActivePage(page)}
       />
     </>
   );

@@ -1,40 +1,45 @@
 import { useGetEmployees } from "@/hooks/apis/employee";
-import {
-  ActionIcon,
-  Badge,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Group,
-  Input,
-  Loader,
-  Pagination,
-  Table,
-  Title,
-  Tooltip,
-} from "@mantine/core";
-import {
-  IconEye,
-  IconFilter,
-  IconPlus,
-  IconTrash,
-  IconWriting,
-} from "@tabler/icons-react";
-import { useEffect } from "react";
+import { Box, Button, Divider, Flex, Input, Title } from "@mantine/core";
+import { useDebouncedState, useDisclosure } from "@mantine/hooks";
+import { IconFilter, IconPlus } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import { EmployeeTableList } from "./employeeListTable";
 import { EmployeeModal } from "./employeeModal";
-import { useDisclosure } from "@mantine/hooks";
 
 export default function Employee() {
-  const { data, isLoading } = useGetEmployees();
+  const [filter, setFilter] = useState({
+    activePage: 1,
+    search: "",
+  });
+  const [search, setSearch] = useDebouncedState("", 500);
+  const { data, isLoading } = useGetEmployees(filter);
+  const setActivePage = (page: number) => {
+    setFilter({
+      ...filter,
+      activePage: page,
+    });
+  };
+  useEffect(() => {
+    setFilter({
+      ...filter,
+      activePage: 1,
+      search,
+    });
+  }, [search]);
   const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <>
       <Title order={3}>Employee</Title>
       <Flex mt="10px" justify="space-between">
         <Box w="30%">
-          <Input placeholder="search" />
+          <Input
+            placeholder="search"
+            onChange={(e) => {
+              setSearch(e.target.value);
+              // setActivePage(1);
+            }}
+          />
         </Box>
         <Flex gap="5px">
           <Button
@@ -59,6 +64,8 @@ export default function Employee() {
         employees={data?.data?.employees}
         total={data?.data?.total}
         isLoading={isLoading}
+        activePage={filter.activePage}
+        setActivePage={setActivePage}
       />
 
       <EmployeeModal opened={opened} close={close} />

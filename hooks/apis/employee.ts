@@ -2,9 +2,9 @@ import { createEmployee, getEmployees } from "@/services/employee";
 import { toast } from "@/utils/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useGetEmployees = () => {
+export const useGetEmployees = (filter: any) => {
   return useQuery({
-    queryKey: ["employess"],
+    queryKey: ["employess", filter],
     queryFn: getEmployees,
   });
 };
