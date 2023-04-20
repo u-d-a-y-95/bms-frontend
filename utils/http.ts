@@ -8,6 +8,15 @@ interface IResponse {
   data: any;
 }
 
+axios.interceptors.request.use((config) => {
+  const storage = localStorage.getItem("bms-storage-auth") || "";
+  const token = storage ? JSON.parse(storage).token : "";
+  if (token) {
+    config.headers["Authorization"] = `bearer ${token}`;
+  }
+  return config;
+});
+
 axios.interceptors.response.use(
   (res) => {
     return {
@@ -22,6 +31,9 @@ axios.interceptors.response.use(
 class Http {
   post(path: string, body: any, option?: any) {
     return axios.post<any, IResponse>(path, body, option);
+  }
+  get(path: string, option?: any) {
+    return axios.get<any, IResponse>(path, option);
   }
 }
 
