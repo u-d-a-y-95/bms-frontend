@@ -12,7 +12,7 @@ import { Notifications } from "@mantine/notifications";
 import { AuthContextProvider } from "@/state/auth";
 import Layout from "@/components/layout";
 import { useRouter } from "next/router";
-import { ModalsProvider } from "@mantine/modals";
+import { ModalsProvider } from "@/state/modal";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
