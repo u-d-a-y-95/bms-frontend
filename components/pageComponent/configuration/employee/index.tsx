@@ -5,7 +5,6 @@ import { IconFilter, IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { EmployeeTableList } from "./employeeListTable";
 import { EmployeeModal } from "./employeeModal";
-import { ConfirmationModal } from "@/components/util/confirmationModal";
 
 interface IModal {
   opened: boolean;

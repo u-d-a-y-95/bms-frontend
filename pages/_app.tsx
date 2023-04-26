@@ -12,6 +12,7 @@ import { Notifications } from "@mantine/notifications";
 import { AuthContextProvider } from "@/state/auth";
 import Layout from "@/components/layout";
 import { useRouter } from "next/router";
+import { ModalsProvider } from "@mantine/modals";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -67,8 +68,10 @@ export default function App(props: AppProps) {
               },
             }}
           >
-            <Notifications />
-            <AuthContextProvider>{wrappedComponent()}</AuthContextProvider>
+            <ModalsProvider>
+              <Notifications />
+              <AuthContextProvider>{wrappedComponent()}</AuthContextProvider>
+            </ModalsProvider>
           </MantineProvider>
         </Hydrate>
       </QueryClientProvider>

@@ -1,4 +1,3 @@
-import { ConfirmationModal } from "@/components/util/confirmationModal";
 import {
   ActionIcon,
   Badge,
@@ -8,9 +7,11 @@ import {
   LoadingOverlay,
   Pagination,
   Table,
+  Text,
   Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 import { IconEye, IconTrash, IconWriting } from "@tabler/icons-react";
 import React, { FC, ReactNode } from "react";
 
@@ -44,16 +45,26 @@ export const EmployeeTableList: FC<Props> = ({
     onOpen: () => console.log("Opened"),
     onClose: () => console.log("Closed"),
   });
-  const deleteConformation = () => {
-    ConfirmationModal({
-      opened: opened,
-      onClose: () => {
-        handlers.close();
+  const deleteConformation = (id: string) => {
+    modals.openConfirmModal({
+      title: "Confirmation",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete this employee? This action can not be
+          undone
+        </Text>
+      ),
+      labels: { confirm: "Yes", cancel: "No" },
+      confirmProps: { color: "red", size: "xs" },
+      cancelProps: {
+        size: "xs",
+        variant: "subtle",
       },
+      onConfirm: () => deleteEmployee(id),
     });
-    // handlers.open();
   };
-  //   if (isLoading) return <Loader />;
+
   return (
     <>
       <Box pos="relative">
@@ -93,7 +104,7 @@ export const EmployeeTableList: FC<Props> = ({
                     />
                     <ActionBtn
                       label="delete"
-                      clickHandler={deleteConformation}
+                      clickHandler={() => deleteConformation(item.id)}
                       id={item.id}
                       Icon={<IconTrash />}
                     />
