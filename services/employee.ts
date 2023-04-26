@@ -10,6 +10,10 @@ export const createEmployee = (employee: any) => {
   return http.post("/org/employees", employee);
 };
 
+export const updateEmployee = ({ id, employee }: any) => {
+  return http.put(`/org/employees/${id}`, employee);
+};
+
 export const deleteEmployee = (id: string) => {
   return http.delete(`/org/employees/${id}`);
 };

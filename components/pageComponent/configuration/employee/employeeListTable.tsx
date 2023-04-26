@@ -3,6 +3,7 @@ import {
   ActionIcon,
   Badge,
   Box,
+  Flex,
   Group,
   Loader,
   LoadingOverlay,
@@ -13,7 +14,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-import { IconEye, IconTrash, IconWriting } from "@tabler/icons-react";
+import { IconEdit, IconEye, IconTrash, IconWriting } from "@tabler/icons-react";
 import React, { FC, ReactNode } from "react";
 
 interface Props {
@@ -31,6 +32,7 @@ interface Props {
   ];
   deleteEmployee: Function;
   viewEmployeeById: Function;
+  editEmployeeById: Function;
 }
 
 export const EmployeeTableList: FC<Props> = ({
@@ -41,6 +43,7 @@ export const EmployeeTableList: FC<Props> = ({
   activePage,
   viewEmployeeById,
   deleteEmployee,
+  editEmployeeById,
 }: Props) => {
   const modal = useCustomModal();
   const [opened, handlers] = useDisclosure(false, {
@@ -88,15 +91,15 @@ export const EmployeeTableList: FC<Props> = ({
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>{item.mobile}</td>
-                <td>
+                <td style={{ width: "120px" }}>
                   <Badge color={item.status === "INACTIVE" ? "red" : ""}>
                     {item.status}
                   </Badge>
                 </td>
-                <td>
-                  <Group position="center">
+                <td style={{ width: "200px" }}>
+                  <Flex align="center" justify="center" gap="xs">
                     <ActionBtn
-                      label="view"
+                      label="View"
                       clickHandler={() => {
                         viewEmployeeById(item.id);
                       }}
@@ -104,12 +107,20 @@ export const EmployeeTableList: FC<Props> = ({
                       Icon={<IconEye />}
                     />
                     <ActionBtn
-                      label="delete"
+                      label="Edit"
+                      clickHandler={() => {
+                        editEmployeeById(item.id);
+                      }}
+                      id={item.id}
+                      Icon={<IconEdit />}
+                    />
+                    <ActionBtn
+                      label="Delete"
                       clickHandler={() => deleteConformation(item.id)}
                       id={item.id}
                       Icon={<IconTrash />}
                     />
-                  </Group>
+                  </Flex>
                 </td>
               </tr>
             ))}
@@ -125,14 +136,13 @@ export const EmployeeTableList: FC<Props> = ({
           onChange={(page) => setActivePage(page)}
         />
       </Box>
-      {/* <ConfirmationModal opened={opened} onClose={() => handlers.close()} /> */}
     </>
   );
 };
 interface ActionBtnProps {
   id: string;
   label: string;
-  clickHandler: Function;
+  clickHandler: any;
   Icon: ReactNode;
 }
 const ActionBtn: FC<ActionBtnProps> = ({
@@ -143,7 +153,7 @@ const ActionBtn: FC<ActionBtnProps> = ({
 }: ActionBtnProps) => {
   return (
     <Tooltip label={label} variant="light" color="gray" withArrow>
-      <ActionIcon size={"sm"} onClick={() => clickHandler("sdd")}>
+      <ActionIcon size={"sm"} onClick={clickHandler}>
         {Icon}
       </ActionIcon>
     </Tooltip>

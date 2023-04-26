@@ -1,32 +1,38 @@
-import { useCreateEmployees, useGetEmployeeById } from "@/hooks/apis/employee";
+import {
+  useCreateEmployees,
+  useGetEmployeeById,
+  useUpdateEmployees,
+} from "@/hooks/apis/employee";
 import {
   Badge,
   Box,
   Button,
-  Center,
   Divider,
   Drawer,
   Flex,
-  Grid,
   Group,
-  Modal,
   TextInput,
   Textarea,
   Title,
 } from "@mantine/core";
-import { Form, useForm, zodResolver } from "@mantine/form";
+import { useForm, zodResolver } from "@mantine/form";
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect } from "react";
 import { z } from "zod";
 
-const schema = z.object({
-  name: z.string().nonempty(),
-  email: z.string().email().optional(),
-  mobile: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/),
-  address: z.string().optional(),
-});
+const schema = z
+  .object({
+    name: z.string().nonempty(),
+    email: z.string().email().optional().or(z.null()),
+    mobile: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/),
+    address: z.string().optional().or(z.null()),
+  })
+  .transform((obj) => obj);
 
 export const EmployeeModal = ({ opened, close, modal }: any) => {
+  const {
+    data: { id },
+  } = modal;
   const { data: employee } = useGetEmployeeById(modal?.data?.id);
 
   const largeScreen = useMediaQuery("(min-width:600px)");
@@ -39,9 +45,14 @@ export const EmployeeModal = ({ opened, close, modal }: any) => {
       address: "",
     },
     validate: zodResolver(schema),
+    transformValues: (values) => {
+      const { name, mobile, email, address } = values;
+      return { name, mobile, email, address };
+    },
   });
 
-  const { mutateAsync } = useCreateEmployees();
+  const { mutateAsync: createMutation } = useCreateEmployees();
+  const { mutateAsync: updateMutation } = useUpdateEmployees();
 
   useEffect(() => {
     if (opened) form.reset();
@@ -49,14 +60,18 @@ export const EmployeeModal = ({ opened, close, modal }: any) => {
   }, [opened]);
 
   useEffect(() => {
-    if (employee) {
-      form.setValues(employee.data);
-    }
+    if (employee) form.setValues(employee.data);
   }, [employee]);
 
   const save = async (values: any) => {
-    const res = await mutateAsync(values);
-    if (res.status === 201) {
+    const res =
+      modal.state === "edit"
+        ? await updateMutation({
+            id,
+            employee: values,
+          })
+        : await createMutation(values);
+    if ([200, 201].includes(res.status)) {
       close();
     }
   };
@@ -115,7 +130,7 @@ export const EmployeeModal = ({ opened, close, modal }: any) => {
                 withAsterisk
                 placeholder="Enter Employee mobile"
                 {...form.getInputProps("mobile")}
-                disabled={disable}
+                disabled={disable || modal.state === "edit"}
               />
               <TextInput
                 label="Email"
@@ -141,7 +156,7 @@ export const EmployeeModal = ({ opened, close, modal }: any) => {
               {modal.state !== "view" && (
                 <>
                   <Button color="teal" type="submit">
-                    Add
+                    {modal.state === "edit" ? "Update" : "Add"}
                   </Button>
                 </>
               )}

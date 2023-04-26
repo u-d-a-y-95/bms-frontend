@@ -16,7 +16,7 @@ export default function Employee() {
   const [modal, setModal] = useState<IModal>({
     opened: false,
     state: null,
-    data: null,
+    data: {},
   });
   const [filter, setFilter] = useState({
     activePage: 1,
@@ -46,7 +46,7 @@ export default function Employee() {
     setModal({
       opened: true,
       state: "add",
-      data: null,
+      data: {},
     });
   };
   const viewEmployeeById = (id: string) => {
@@ -59,11 +59,21 @@ export default function Employee() {
     });
   };
 
+  const editEmployeeById = (id: string) => {
+    setModal({
+      opened: true,
+      state: "edit",
+      data: {
+        id,
+      },
+    });
+  };
+
   const closeModal = () => {
     setModal({
       opened: false,
       state: null,
-      data: null,
+      data: {},
     });
   };
 
@@ -107,6 +117,7 @@ export default function Employee() {
         setActivePage={setActivePage}
         deleteEmployee={deleteEmployee}
         viewEmployeeById={viewEmployeeById}
+        editEmployeeById={editEmployeeById}
       />
       <EmployeeModal modal={modal} opened={modal.opened} close={closeModal} />
     </>
