@@ -1,3 +1,4 @@
+import { useCustomModal } from "@/state/modal";
 import {
   ActionIcon,
   Badge,
@@ -11,7 +12,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { modals } from "@mantine/modals";
+
 import { IconEye, IconTrash, IconWriting } from "@tabler/icons-react";
 import React, { FC, ReactNode } from "react";
 
@@ -41,27 +42,27 @@ export const EmployeeTableList: FC<Props> = ({
   viewEmployeeById,
   deleteEmployee,
 }: Props) => {
+  const modal = useCustomModal();
   const [opened, handlers] = useDisclosure(false, {
     onOpen: () => console.log("Opened"),
     onClose: () => console.log("Closed"),
   });
   const deleteConformation = (id: string) => {
-    modals.openConfirmModal({
+    modal.open({
       title: "Confirmation",
-      centered: true,
       children: (
         <Text size="sm">
           Are you sure you want to delete this employee? This action can not be
           undone
         </Text>
       ),
-      labels: { confirm: "Yes", cancel: "No" },
-      confirmProps: { color: "red", size: "xs" },
+      labels: { ok: "Yes", cancel: "No" },
+      okProps: { color: "red", size: "xs" },
       cancelProps: {
         size: "xs",
         variant: "subtle",
       },
-      onConfirm: () => deleteEmployee(id),
+      onOk: () => deleteEmployee(id),
     });
   };
 
