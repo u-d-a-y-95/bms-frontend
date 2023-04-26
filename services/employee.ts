@@ -13,3 +13,7 @@ export const createEmployee = (employee: any) => {
 export const deleteEmployee = (id: string) => {
   return http.delete(`/org/employees/${id}`);
 };
+export const getEmployeeById = ({ queryKey }: any) => {
+  const id: string = queryKey[1];
+  return http.get(`/org/employees/${id}`);
+};

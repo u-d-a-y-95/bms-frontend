@@ -28,6 +28,7 @@ interface Props {
     }
   ];
   deleteEmployee: Function;
+  viewEmployeeById: Function;
 }
 
 export const EmployeeTableList: FC<Props> = ({
@@ -36,6 +37,7 @@ export const EmployeeTableList: FC<Props> = ({
   total,
   setActivePage,
   activePage,
+  viewEmployeeById,
   deleteEmployee,
 }: Props) => {
   const [opened, handlers] = useDisclosure(false, {
@@ -81,6 +83,14 @@ export const EmployeeTableList: FC<Props> = ({
                 </td>
                 <td>
                   <Group position="center">
+                    <ActionBtn
+                      label="view"
+                      clickHandler={() => {
+                        viewEmployeeById(item.id);
+                      }}
+                      id={item.id}
+                      Icon={<IconEye />}
+                    />
                     <ActionBtn
                       label="delete"
                       clickHandler={deleteConformation}

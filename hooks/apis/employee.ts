@@ -1,6 +1,7 @@
 import {
   createEmployee,
   deleteEmployee,
+  getEmployeeById,
   getEmployees,
 } from "@/services/employee";
 import { toast } from "@/utils/toast";
@@ -12,6 +13,7 @@ export const useGetEmployees = (filter: any) => {
     queryFn: getEmployees,
   });
 };
+
 export const useCreateEmployees = () => {
   const client = useQueryClient();
   return useMutation({
@@ -39,5 +41,13 @@ export const useDeleteEmployee = () => {
     onError: (err: any) => {
       toast.error(err.message);
     },
+  });
+};
+
+export const useGetEmployeeById = (id: string | null) => {
+  return useQuery({
+    queryKey: ["employee", id],
+    queryFn: getEmployeeById,
+    enabled: !!id,
   });
 };

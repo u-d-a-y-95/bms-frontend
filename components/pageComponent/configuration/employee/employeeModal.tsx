@@ -1,5 +1,6 @@
-import { useCreateEmployees } from "@/hooks/apis/employee";
+import { useCreateEmployees, useGetEmployeeById } from "@/hooks/apis/employee";
 import {
+  Badge,
   Box,
   Button,
   Center,
@@ -25,7 +26,9 @@ const schema = z.object({
   address: z.string().optional(),
 });
 
-export const EmployeeModal = ({ opened, close }: any) => {
+export const EmployeeModal = ({ opened, close, modal }: any) => {
+  const { data: employee } = useGetEmployeeById(modal?.data?.id);
+
   const largeScreen = useMediaQuery("(min-width:600px)");
   const form = useForm({
     validateInputOnChange: true,
@@ -45,13 +48,21 @@ export const EmployeeModal = ({ opened, close }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opened]);
 
+  useEffect(() => {
+    if (employee) {
+      form.setValues(employee.data);
+    }
+  }, [employee]);
+
   const save = async (values: any) => {
     const res = await mutateAsync(values);
-    console.log(res);
     if (res.status === 201) {
       close();
     }
   };
+
+  const disable = modal.state === "view";
+
   return (
     <Drawer
       size={largeScreen ? "lg" : "100%"}
@@ -67,11 +78,19 @@ export const EmployeeModal = ({ opened, close }: any) => {
     >
       <Flex direction={"column"} style={{ height: "100%" }}>
         <Box h="70px">
-          <Group h="100%">
-            <Title pl="30px" order={3}>
-              Add Employee
+          <Flex h="100%" align="center" justify="space-between">
+            <Title pl="30px" order={3} style={{ textTransform: "capitalize" }}>
+              {modal.state} Employee
             </Title>
-          </Group>
+            {employee && (
+              <Badge
+                color={employee.data.status === "INACTIVE" ? "red" : ""}
+                mr="30px"
+              >
+                {employee.data.status}
+              </Badge>
+            )}
+          </Flex>
           <Divider />
         </Box>
         <form
@@ -89,23 +108,27 @@ export const EmployeeModal = ({ opened, close }: any) => {
                 placeholder="Enter Employee Name"
                 withAsterisk
                 {...form.getInputProps("name")}
+                disabled={disable}
               />
               <TextInput
                 label="Mobile"
                 withAsterisk
                 placeholder="Enter Employee mobile"
                 {...form.getInputProps("mobile")}
+                disabled={disable}
               />
               <TextInput
                 label="Email"
                 type="email"
                 placeholder="Enter Employee email"
                 {...form.getInputProps("email")}
+                disabled={disable}
               />
               <Textarea
                 label="Address"
                 placeholder="Enter Employee Address"
                 {...form.getInputProps("address")}
+                disabled={disable}
               />
             </Flex>
           </div>
@@ -115,9 +138,13 @@ export const EmployeeModal = ({ opened, close }: any) => {
               <Button color="red" onClick={close}>
                 Cancel
               </Button>
-              <Button color="teal" type="submit">
-                Add
-              </Button>
+              {modal.state !== "view" && (
+                <>
+                  <Button color="teal" type="submit">
+                    Add
+                  </Button>
+                </>
+              )}
             </Group>
           </Box>
         </form>

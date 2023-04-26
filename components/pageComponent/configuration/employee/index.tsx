@@ -7,7 +7,18 @@ import { EmployeeTableList } from "./employeeListTable";
 import { EmployeeModal } from "./employeeModal";
 import { ConfirmationModal } from "@/components/util/confirmationModal";
 
+interface IModal {
+  opened: boolean;
+  state: string | null;
+  data: any;
+}
+
 export default function Employee() {
+  const [modal, setModal] = useState<IModal>({
+    opened: false,
+    state: null,
+    data: null,
+  });
   const [filter, setFilter] = useState({
     activePage: 1,
     search: "",
@@ -28,10 +39,33 @@ export default function Employee() {
       search,
     });
   }, [search]);
-  const [opened, { open, close }] = useDisclosure(false);
 
   const deleteEmployee = (id: string) => {
     mutate(id);
+  };
+  const addEmployee = () => {
+    setModal({
+      opened: true,
+      state: "add",
+      data: null,
+    });
+  };
+  const viewEmployeeById = (id: string) => {
+    setModal({
+      opened: true,
+      state: "view",
+      data: {
+        id,
+      },
+    });
+  };
+
+  const closeModal = () => {
+    setModal({
+      opened: false,
+      state: null,
+      data: null,
+    });
   };
 
   return (
@@ -52,7 +86,7 @@ export default function Employee() {
             leftIcon={<IconPlus size={"1rem"} />}
             color="gray"
             variant="light"
-            onClick={open}
+            onClick={addEmployee}
           >
             Add
           </Button>
@@ -73,9 +107,9 @@ export default function Employee() {
         activePage={filter.activePage}
         setActivePage={setActivePage}
         deleteEmployee={deleteEmployee}
+        viewEmployeeById={viewEmployeeById}
       />
-
-      <EmployeeModal opened={opened} close={close} />
+      <EmployeeModal modal={modal} opened={modal.opened} close={closeModal} />
     </>
   );
 }
