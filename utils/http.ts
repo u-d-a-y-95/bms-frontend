@@ -32,6 +32,9 @@ class Http {
   post(path: string, body: any, option?: any) {
     return axios.post<any, IResponse>(path, body, option);
   }
+  update(path: string, body: any, option?: any) {
+    return axios.post<any, IResponse>(path, body, option);
+  }
   get(path: string, option?: any) {
     return axios.get<any, IResponse>(path, option);
   }
