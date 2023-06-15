@@ -38,7 +38,7 @@ const navs = [
     children: [
       {
         label: "Profile",
-        url: "",
+        url: "/configuration/profile",
         icon: IconUser,
       },
       {
