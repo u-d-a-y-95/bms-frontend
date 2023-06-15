@@ -20,7 +20,7 @@ export default function App(props: AppProps) {
   const router = useRouter();
 
   const wrappedComponent = () => {
-    return ["/login"].includes(router.pathname) ? (
+    return ["/login","/signup"].includes(router.pathname) ? (
       <Component {...pageProps} />
     ) : (
       <Layout>

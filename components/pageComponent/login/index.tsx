@@ -1,4 +1,4 @@
-import { Button, Group, TextInput, Title, PasswordInput } from "@mantine/core";
+import { Button, Group, TextInput, Title, PasswordInput, Text } from "@mantine/core";
 import { Form, useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import styles from "./index.module.scss";
@@ -6,6 +6,7 @@ import { useLogin } from "@/hooks/apis/auth";
 import { useAuthContext } from "@/state/auth";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const schema = z.object({
   mobile: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/),
@@ -52,7 +53,12 @@ export const Login = () => {
             />
             <PasswordInput
               my="xs"
-              label="Password"
+              styles={{
+                label:{
+                  width:"100%"
+                }
+              }}
+              label={<Group position="apart"><span>Password</span> <Link href="/forgotpassword" >Forgot Password?</Link></Group>}
               placeholder="Enter a password"
               {...form.getInputProps("password")}
             />
@@ -62,6 +68,9 @@ export const Login = () => {
               </Button>
             </Group>
           </Form>
+          <div>
+            <Text size="sm">Don&apos;t have an account? <Link href="/signup">create</Link></Text>
+          </div>
         </div>
       </div>
     </div>
